@@ -1,0 +1,110 @@
+<div class="card-body border">
+  <form [formGroup]="addForm" (submit)="onSubmit()" novalidate>
+    <!-- title -->
+    <div class="form-group row">
+      <label for="name" class="col-sm-3 col-form-label">title</label>
+      <div class="col-sm-9">
+        <input
+          type="text"
+          formControlName="title"
+          class="form-control"
+          placeholder="enter title"
+          [ngClass]="{
+            'is-invalid':
+              addForm.get('title').errors && addForm.get('title').touched
+          }"
+        />
+        <div
+          *ngIf="addForm.get('title').hasError('required')"
+          class="invalid-feedback"
+        >
+          title is required!
+        </div>
+        <div
+          *ngIf="addForm.get('title').hasError('minlength')"
+          class="invalid-feedback"
+        >
+          title must be 4 char long!
+        </div>
+        <div
+          *ngIf="addForm.get('title').hasError('pattern')"
+          class="invalid-feedback"
+        >
+          title must be only character!
+        </div>
+      </div>
+    </div>
+    <!--user id-->
+
+    <div class="form-group row">
+      <label for="name" class="col-sm-3 col-form-label">userId</label>
+      <div class="col-sm-9">
+        <input
+          type="number"
+          formControlName="userId"
+          class="form-control"
+          placeholder="enter userId"
+          [ngClass]="{
+            'is-invalid':
+              addForm.get('userId').errors && addForm.get('userId').touched
+          }"
+        />
+        <div
+          *ngIf="addForm.get('userId').hasError('required')"
+          class="invalid-feedback"
+        >
+          userId is required!
+        </div>
+      </div>
+    </div>
+
+    <!-- body -->
+    <div class="form-group row">
+      <label for="body" class="col-sm-3 col-form-label">body</label>
+      <div class="col-sm-9">
+        <textarea
+          type="text"
+          class="form-control"
+          placeholder="enter some body"
+          class="form-control"
+          formControlName="body"
+          [ngClass]="{
+            'is-invalid':
+              addForm.get('body').errors && addForm.get('body').touched
+          }"
+        ></textarea>
+        <div
+          *ngIf="addForm.get('body').hasError('required')"
+          class="invalid-feedback"
+        >
+          body is required!
+        </div>
+      </div>
+    </div>
+
+    <!-- image feild -->
+
+    <div class="form-group row">
+      <button type="button" (click)="imagePicker.click()">Pick Image</button>
+      <input type="file" #imagePicker (change)="onImagePicked($event)" />
+    </div>
+    <div
+      class="image-preview"
+      *ngIf="
+        imagePreview !== '' && imagePreview && addForm.get('imagePath').valid
+      "
+    >
+      <img [src]="imagePreview" [alt]="addForm.value.title" />
+    </div>
+
+    <div class="text-center">
+      <button
+        [disabled]="addForm.invalid"
+        class="btn btn-primary"
+        type="submit"
+      >
+        add post
+      </button>
+    </div>
+  </form>
+</div>
